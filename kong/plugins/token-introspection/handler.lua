@@ -144,7 +144,9 @@ function TokenIntrospectionHandler:access(config)
   utils.set_header("X-Credential-Sub", jwt.sub)
   utils.set_header("X-Credential-Aud", jwt.aud)
   utils.set_header("X-Credential-Iss", jwt.iss)
-  utils.set_header("X-Credential-Jti", jwt.jti)
+  utils.set_header("X-Credential-User-ID", jwt.user._id)
+  utils.set_header("X-Credential-Role-ID", jwt.user.roleId)
+  utils.set_header("X-Credential-User-Email", jwt.user.email)
   if config.custom_claims_forward then
     for _, claim in ipairs(config.custom_claims_forward) do
       utils.set_header("X-Credential-" .. claim, jwt[claim])

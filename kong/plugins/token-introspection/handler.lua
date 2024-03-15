@@ -134,9 +134,6 @@ function TokenIntrospectionHandler:access(config)
       utils.exit(ngx.HTTP_FORBIDDEN, "The resource owner or authorization server denied the request.")
     end
   end
-  print("first thing: " .. jwt.user.fullName)
-  print("second thing: " .. jwt["user"].roleId)
-  print("list of claims" .. config.custom_claims_forward)
   -- Authorization successful, set headers based on information from access token
   utils.set_header("X-Credential-Scope", jwt.scope)
   utils.set_header("X-Credential-Client-ID", jwt.clientId)

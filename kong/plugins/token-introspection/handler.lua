@@ -7,15 +7,19 @@ local kong_meta = require "kong.meta"
 
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
-  print(access_token)
   local res, err = http:new():request_uri(config.introspection_endpoint, {
     ssl_verify = config.introspection_ssl_verify,
     method = "POST",
     body = "token_type_hint=access_token&token=" .. access_token
         .. "&client_id=" .. config.client_id
         .. "&client_secret=" .. config.client_secret,
-    headers = { ["Content-Type"] = "application/x-www-form-urlencoded" }
+    headers = {
+      ["Content-Type"] = "application/x-www-form-urlencoded",
+      ["Authorization"] = "Bearer " .. access_token
+    }
   })
+
+  print(res)
 
   if not res then
     return nil, err

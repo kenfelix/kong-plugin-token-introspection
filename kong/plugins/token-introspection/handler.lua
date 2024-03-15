@@ -7,6 +7,7 @@ local kong_meta = require "kong.meta"
 
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
+  print(access_token)
   local res, err = http:new():request_uri(config.introspection_endpoint, {
     ssl_verify = config.introspection_ssl_verify,
     method = "POST",
@@ -112,7 +113,7 @@ function TokenIntrospectionHandler:access(config)
     utils.exit(ngx.HTTP_INTERNAL_SERVER_ERROR, "Authorization server error: " .. err)
   end
   if introspection_response.status ~= 200 then
-    utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request. 1", introspection_response)
+    utils.exit(ngx.HTTP_UNAUTHORIZED, introspection_response.)
   end
   -- decode into jwt token
   local jwt = cjson.decode(introspection_response.body)

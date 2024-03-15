@@ -3,6 +3,8 @@ Simple kong plugin that validates access tokens sent by developers using a third
 Authorization Server by leveraging its introspection endpoint ([RFC7662](https://tools.ietf.org/html/rfc7662)).
 The implementation is heavily inspired by [VentaApps/kong-token-introspection](https://github.com/VentaApps/kong-token-introspection).
 
+Note: This plugin was forked from https://github.com/callistaenterprise/kong-plugin-token-introspection.git and updated to use the latest kong plugin convention.
+
 The plugin protects an API using introspection of an OAuth 2.0 Access Token,
 retrieved from a request header. It uses the introspection
 endpoint ([RFC7662](https://tools.ietf.org/html/rfc7662#section-2)) of a configured third-party

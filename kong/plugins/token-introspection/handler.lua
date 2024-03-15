@@ -112,23 +112,23 @@ function TokenIntrospectionHandler:access(config)
     utils.exit(ngx.HTTP_INTERNAL_SERVER_ERROR, "Authorization server error: " .. err)
   end
   if introspection_response.status ~= 200 then
-    utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
+    utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request. 1")
   end
   -- decode into jwt token
   local jwt = cjson.decode(introspection_response.body)
   if not jwt.active then
-    utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
+    utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request. 2")
   end
   -- If token is bound to client certificate, validate the binding
   if jwt.cnf and jwt.cnf["x5t#S256"] then
     if not config.certificate_header or not verify_certificate(jwt.cnf["x5t#S256"], config.certificate_header) then
-      utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
+      utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request. 3")
     end
   end
   -- If specific scopes are required, validate that the token contains the required scopes
   if config.scope then
     if not verify_scope(config.scope, jwt.scope) then
-      utils.exit(ngx.HTTP_FORBIDDEN, "The resource owner or authorization server denied the request.")
+      utils.exit(ngx.HTTP_FORBIDDEN, "The resource owner or authorization server denied the request. 4")
     end
   end
   -- Authorization successful, set headers based on information from access token

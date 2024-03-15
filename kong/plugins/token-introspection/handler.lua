@@ -1,4 +1,3 @@
-local BasePlugin = require "kong.plugins.base_plugin"
 local utils = require("kong.plugins.token-introspection.utils")
 local http = require "resty.http"
 local x509 = require "resty.openssl.x509"
@@ -91,14 +90,9 @@ local function verify_scope(required_scope, scope)
   return true
 end
 
-local TokenIntrospection = BasePlugin:extend()
+local TokenIntrospectionHandler = {}
 
-function TokenIntrospection:new()
-  TokenIntrospection.super.new(self, "token-introspection")
-end
-
-function TokenIntrospection:access(config)
-  TokenIntrospection.super.access(self)
+function TokenIntrospectionHandler:access(config)
   local bearer_token = utils.get_header(config.token_header)
   if not bearer_token then
     utils.exit(ngx.HTTP_UNAUTHORIZED, "Unauthenticated.")
@@ -156,4 +150,4 @@ function TokenIntrospection:access(config)
   end
 end
 
-return TokenIntrospection
+return TokenIntrospectionHandler

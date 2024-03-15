@@ -3,6 +3,7 @@ local http = require "resty.http"
 local x509 = require "resty.openssl.x509"
 local b64 = require("ngx.base64")
 local cjson = require "cjson.safe"
+local kong_meta = require "kong.meta"
 
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
@@ -90,7 +91,10 @@ local function verify_scope(required_scope, scope)
   return true
 end
 
-local TokenIntrospectionHandler = {}
+local TokenIntrospectionHandler = {
+  VERSION = kong_meta.version,
+  PRIORITY = 1100,
+}
 
 function TokenIntrospectionHandler:access(config)
   local bearer_token = utils.get_header(config.token_header)

@@ -18,8 +18,10 @@ local function do_introspect_access_token(access_token, config)
       ["Authorization"] = "Bearer " .. access_token
     }
   })
-
+  print("success:")
   print(res)
+  print("error:")
+  print(err)
 
   if not res then
     return nil, err

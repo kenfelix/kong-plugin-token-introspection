@@ -7,6 +7,7 @@ local kong_meta = require "kong.meta"
 
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
+  print("sending request to auth server...")
   local res, err = http:new():request_uri(config.introspection_endpoint, {
     ssl_verify = config.introspection_ssl_verify,
     method = "POST",

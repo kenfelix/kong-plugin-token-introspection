@@ -31,7 +31,8 @@ return {
           { ttl = { type = "number", required = true, default = 30 } },
           { scope = { type = "array", elements = { type = "string" }, required = false } },
           { certificate_header = { type = "string", required = false } },
-          { custom_claims_forward = { type = "array", elements = { type = "string" }, required = false } }
+          { custom_claims_forward = { type = "array", elements = { type = "string" }, required = false } },
+          { priority = { type = "number", required = true, default = 0 } }
         }
       }
     }

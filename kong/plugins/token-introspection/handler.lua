@@ -131,9 +131,12 @@ function TokenIntrospectionHandler:access(config)
   -- If specific scopes are required, validate that the token contains the required scopes
   if config.scope then
     if not verify_scope(config.scope, jwt.scope) then
-      utils.exit(ngx.HTTP_FORBIDDEN, "The resource owner or authorization server denied the request. 4")
+      utils.exit(ngx.HTTP_FORBIDDEN, "The resource owner or authorization server denied the request.")
     end
   end
+  print("first thing: " .. jwt.user)
+  print("second thing: " .. jwt["user"])
+  print("list of claims" .. config.custom_claims_forward)
   -- Authorization successful, set headers based on information from access token
   utils.set_header("X-Credential-Scope", jwt.scope)
   utils.set_header("X-Credential-Client-ID", jwt.clientId)
@@ -147,6 +150,7 @@ function TokenIntrospectionHandler:access(config)
   utils.set_header("X-Credential-Jti", jwt.jti)
   if config.custom_claims_forward then
     for _, claim in ipairs(config.custom_claims_forward) do
+      print("list of claims" .. claim)
       utils.set_header("X-Credential-" .. claim, jwt[claim])
     end
   end

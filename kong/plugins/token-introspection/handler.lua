@@ -147,7 +147,6 @@ function TokenIntrospectionHandler:access(config)
   utils.set_header("X-Credential-Jti", jwt.jti)
   if config.custom_claims_forward then
     for _, claim in ipairs(config.custom_claims_forward) do
-      print("list of claims" .. claim)
       utils.set_header("X-Credential-" .. claim, jwt[claim])
     end
   end

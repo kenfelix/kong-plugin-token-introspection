@@ -112,7 +112,7 @@ function TokenIntrospectionHandler:access(config)
     utils.exit(ngx.HTTP_INTERNAL_SERVER_ERROR, "Authorization server error: " .. err)
   end
   if introspection_response.status ~= 200 then
-    utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request. 1")
+    utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request. 1", introspection_response)
   end
   -- decode into jwt token
   local jwt = cjson.decode(introspection_response.body)

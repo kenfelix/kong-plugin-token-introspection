@@ -122,6 +122,8 @@ function TokenIntrospectionHandler:access(config)
   if not jwt.success then
     utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
   end
+  -- Log JWT user
+  kong.log.info("JWT User: ", cjson.encode(jwt.user))
   -- If token is bound to client certificate, validate the binding
   if jwt.cnf and jwt.cnf["x5t#S256"] then
     if not config.certificate_header or not verify_certificate(jwt.cnf["x5t#S256"], config.certificate_header) then

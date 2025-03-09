@@ -122,9 +122,6 @@ function TokenIntrospectionHandler:access(config)
   if not jwt.success then
     utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
   end
-  -- Log JWT user
-  print("JWT User: ***********************************", cjson.encode(jwt.user))
-  utils.exit(ngx.HTTP_UNAUTHORIZED, cjson.encode(jwt.user))
   -- If token is bound to client certificate, validate the binding
   if jwt.cnf and jwt.cnf["x5t#S256"] then
     if not config.certificate_header or not verify_certificate(jwt.cnf["x5t#S256"], config.certificate_header) then
@@ -147,8 +144,7 @@ function TokenIntrospectionHandler:access(config)
   utils.set_header("X-Credential-Sub", jwt.sub)
   utils.set_header("X-Credential-Aud", jwt.aud)
   utils.set_header("X-Credential-Iss", jwt.iss)
-  utils.set_header("X-Credential-User", jwt.user)
-  utils.set_header("X-Credential-User-Id", jwt.user._id)
+  utils.set_header("X-Credential-User", cjson.encode(jwt.user))
   if config.custom_claims_forward then
     for _, claim in ipairs(config.custom_claims_forward) do
       utils.set_header("X-Credential-" .. claim, jwt[claim])

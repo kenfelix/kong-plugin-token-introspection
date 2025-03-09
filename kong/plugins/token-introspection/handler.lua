@@ -123,6 +123,7 @@ function TokenIntrospectionHandler:access(config)
     utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
   end
   -- Log JWT user
+  print("JWT User: ***********************************", cjson.encode(jwt.user))
   utils.exit(ngx.HTTP_UNAUTHORIZED, cjson.encode(jwt.user))
   -- If token is bound to client certificate, validate the binding
   if jwt.cnf and jwt.cnf["x5t#S256"] then

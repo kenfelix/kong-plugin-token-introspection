@@ -95,7 +95,7 @@ local function verify_scope(required_scope, scope)
 end
 
 local TokenIntrospectionHandler = {
-  VERSION = kong_meta.version,
+  VERSION = "3.11.0",,
   PRIORITY = 1100,
 }
 
